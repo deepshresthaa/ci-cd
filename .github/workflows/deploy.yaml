@@ -1,25 +1,43 @@
-name: Deploy NodeJS Application to Hostinger
+name: Deploy NodeJS Application to EC2
 
 on:
-  push:
-    branches:
-      - main
+push:
+branches:
+- main
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+deploy:
+runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+```
+steps:
+  - name: Checkout Repository
+    uses: actions/checkout@v4
 
-      - name: Deploy Via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: root
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            cd /home/ubuntu/ci-cd
-            git pull
-            docker compose up -d --build
+  - name: Deploy to EC2
+    uses: appleboy/ssh-action@v1.0.3
+    with:
+      host: ${{ secrets.SSH_HOST }}
+      username: ubuntu
+      key: ${{ secrets.SSH_KEY }}
+      script: |
+        set -e
+
+        echo "Connected to server..."
+        whoami
+
+        cd /home/ubuntu/ci-cd
+
+        echo "Updating source code..."
+        git fetch origin
+        git reset --hard origin/main
+
+        echo "Building and starting containers..."
+        docker compose down
+        docker compose up -d --build
+
+        echo "Running containers:"
+        docker ps
+
+        echo "Deployment completed successfully."
+```
