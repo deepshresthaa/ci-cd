@@ -9,7 +9,6 @@ jobs:
 deploy:
 runs-on: ubuntu-latest
 
-```
 steps:
   - name: Checkout Repository
     uses: actions/checkout@v4
@@ -40,4 +39,3 @@ steps:
         docker ps
 
         echo "Deployment completed successfully."
-```
