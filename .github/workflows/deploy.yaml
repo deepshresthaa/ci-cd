@@ -9,9 +9,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+<<<<<<< HEAD
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+=======
+steps:
+  - name: Checkout Repository
+    uses: actions/checkout@v4
+>>>>>>> a7f492acbeb79a1bce475baa0fc37011e36ffc22
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -34,5 +40,12 @@ jobs:
             echo "Building and starting containers..."
             docker compose up -d --build
 
+<<<<<<< HEAD
             echo "Running containers:"
             docker ps
+=======
+        echo "Running containers:"
+        docker ps
+
+        echo "Deployment completed successfully."
+>>>>>>> a7f492acbeb79a1bce475baa0fc37011e36ffc22
